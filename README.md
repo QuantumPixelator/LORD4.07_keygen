@@ -8,7 +8,7 @@ Both a **Windows GUI** (`.exe`) and a **Python CLI** version are provided for ea
 ---
 ## IF YOU JUST WANT YOUR KEYS:
 - [Online Link](http://192.3.16.80:8000/ui)
-- [Direct API](http://192.3.16.80:8000/api/keys?sysop=Anonymous&bbs=CoolBBS%20HTTP/1.1)
+- [Direct API](http://192.3.16.80:8000/api/keys?sysop=Anonymous&bbs=CoolBBS)
     - If you use direct API, change the "sysop=" to sysop name, and "bbs=" to your BBS name
 ---
 ---
