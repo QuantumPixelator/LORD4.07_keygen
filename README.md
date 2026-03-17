@@ -4,7 +4,13 @@ Registration key generator and binary patcher for **Legend of the Red Dragon (LO
 a classic BBS door game by Seth Able Robinson / Metropolis Inc., circa 2006.
 
 Both a **Windows GUI** (`.exe`) and a **Python CLI** version are provided for each tool.
-
+---
+---
+## IF YOU JUST WANT YOUR KEYS:
+- [Online Link](http://192.3.16.80:8000/ui)
+- [Direct API](http://192.3.16.80:8000/api/keys?sysop=Anonymous&bbs=CoolBBS%20HTTP/1.1)
+    - If you use direct API, change the "sysop=" to sysop name, and "bbs=" to your BBS name
+---
 ---
 
 ## Tools
