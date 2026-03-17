@@ -21,6 +21,24 @@ How it works (from binary analysis of lordcfg.exe):
 """
 
 import sys
+from counter import increment_counter
+
+# ANSI color constants for retro BBS feel (works on Linux terminals)
+RESET = "\033[0m"
+BOLD = "\033[1m"
+RED = "\033[31m"
+YELLOW = "\033[33m"
+CYAN = "\033[36m"
+
+LORD_BANNER = r"""
+    _      _____  _____  _____
+ | |    |  _  ||  _  ||  _  |
+ | |    | | | || | | || | | |
+ | |__  | |_| || |_| || |_| |
+ |____| |_____||_____||_____|
+
+    LEGEND OF THE RED DRAGON — Key Generator
+"""
 
 
 def compute_lord_keys(sysop_name: str, bbs_name: str) -> tuple[int, int, int, int, int]:
@@ -132,10 +150,9 @@ def main() -> None:
         sysop_name = sys.argv[1]
         bbs_name = sys.argv[2]
     else:
-        print("=" * 60)
-        print("  LORD v4.07 Registration Key Generator")
-        print(" Reverse-engineered by Quantum Pixelator ")
-        print("=" * 60)
+        # Printed header with ANSI styling for a retro BBS look
+        print(BOLD + RED + LORD_BANNER + RESET)
+        print(YELLOW + "Reverse-engineered by Quantum Pixelator" + RESET)
         sysop_name = input("Enter Sysop Name : ").strip()
         bbs_name = input("Enter BBS Name   : ").strip()
 
@@ -145,19 +162,26 @@ def main() -> None:
 
     k1, k2, k3, k4, k5 = compute_lord_keys(sysop_name, bbs_name)
 
+    # increment private usage counter (not shown to the user)
+    try:
+        increment_counter()
+    except Exception:
+        # don't fail the keygen if counting errors occur
+        pass
+
     print()
-    print("=" * 60)
-    print(f"  Sysop Name : {sysop_name.upper()}")
-    print(f"  BBS Name   : {bbs_name.upper()}")
-    print("=" * 60)
-    print(f"  Number 1 : {k1}")
-    print(f"  Number 2 : {k2}")
-    print(f"  Number 3 : {k3}")
-    print(f"  Number 4 : {k4}")
-    print(f"  Number 5 : {k5}")
-    print("=" * 60)
-    print("  Enter these when lordcfg.exe asks for the 5 numbers.")
-    print("=" * 60)
+    print(BOLD + CYAN + "=" * 60 + RESET)
+    print(BOLD + YELLOW + f"  Sysop Name : {sysop_name.upper()}" + RESET)
+    print(BOLD + YELLOW + f"  BBS Name   : {bbs_name.upper()}" + RESET)
+    print(BOLD + CYAN + "=" * 60 + RESET)
+    print(BOLD + RED + f"  Number 1 : {k1}" + RESET)
+    print(BOLD + RED + f"  Number 2 : {k2}" + RESET)
+    print(BOLD + RED + f"  Number 3 : {k3}" + RESET)
+    print(BOLD + RED + f"  Number 4 : {k4}" + RESET)
+    print(BOLD + RED + f"  Number 5 : {k5}" + RESET)
+    print(BOLD + CYAN + "=" * 60 + RESET)
+    print(BOLD + YELLOW + "  Enter these when lordcfg.exe asks for the 5 numbers." + RESET)
+    print(BOLD + CYAN + "=" * 60 + RESET)
 
 
 if __name__ == "__main__":
