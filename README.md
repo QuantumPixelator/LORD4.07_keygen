@@ -27,22 +27,13 @@ Both a **Windows GUI** (`.exe`) and a **Python CLI** version are provided for ea
 
 Computes the five numbers that `lordcfg.exe` requires during registration.
 
-### GUI usage (`lordkey.exe`)
+### Generating Your VALID KEYS that you PAID the author(s) for:
 
-1. Enter the **Sysop Name** exactly as you will type it in `lordcfg.exe`
-2. Enter the **BBS Name** exactly as you will type it in `lordcfg.exe`
-3. Click **Generate Keys**
-4. Enter the five resulting numbers into `lordcfg.exe` when prompted
+- Run the GUI app (lordkey.exe)
+- Or open the source code in Python and run it 'python3 lordkey.py "Sysop Name" "BBS Name"'
 
-Names are case-insensitive — `lordcfg.exe` uppercases them before computing.
-
-### CLI usage (`lordkey.py`)
-
-```
-python lordkey.py "Sysop Name" "BBS Name"
-```
-
-Or run `python lordkey.py` with no arguments for an interactive prompt.
+If you just want your registration keys without any effort, go here:
+[LORD Key Online Generator](http://192.3.16.80:8085)
 
 ---
 
@@ -66,56 +57,6 @@ python lordpatch.py "C:\LORD\LORDCFG.EXE"
 ```
 
 Or run `python lordpatch.py` with no arguments — a file-open dialog appears.
-
----
-
-## How the keygen algorithm works
-
-Reversed from `lordcfg.exe`, function at virtual `CS:0x03F7`
-(Turbo Pascal 7.0, 16-bit DOS executable).
-
-Both names are uppercased before any arithmetic. Five independent 16-bit keys are produced:
-
-### Key 1 — Sysop name, alternate byte placement
-
-For each character (1-indexed):
-
-- **Odd** index  add `char` to low byte of accumulator
-- **Even** index  add `char x 256` (shift into high byte)
-
-### Key 2 — BBS name, same alternating scheme (32-bit accumulator, low word used)
-
-### Key 3 — Interleaved sysop + BBS
-
-Both names are zero-padded to equal length, then for position `i`:
-odd positions take the sysop byte, even positions take the BBS byte.
-
-### Key 4 — Sysop name divided by valid-char count
-
-`valid_count` = number of spaces or AZ characters in sysop name, capped at 4.  
-`key4 = sum(char >> 1 for char in sysop) // valid_count`
-
-### Key 5 — BBS name, halved and conditionally doubled
-
-`acc = sum(char >> 1 for char in bbs)`  
-If `acc < 0x3FFFFFFF` then `acc *= 2`.  
-`key5 = acc & 0xFFFF`
-
----
-
-## How the patcher works
-
-A single byte is changed in the registration fail-path of `lordcfg.exe`:
-
-```
-File offset 0x749D  (virtual CS:0x1BBD)
-
-Before: C6 06 18 02 00     mov [0x218], 0   ; fail = NOT registered
-After:  C6 06 18 02 01     mov [0x218], 1   ; fail = registered
-```
-
-The success path already writes `1`; patching the fail path to also write `1`
-means both branches produce the same outcome — registration always succeeds.
 
 ---
 
